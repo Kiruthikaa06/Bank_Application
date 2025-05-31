@@ -1,147 +1,177 @@
-# Bank Account Management System
+# 🏦 Bank Account Management System (C Language)
 
-## 📌 Overview
+## 📘 Project Description
 
-This is a simple **Bank Account Management System** written in **C**. It allows users to:
+This **Bank Account Management System** is a console-based application written in the C programming language. It simulates a minimalistic banking environment where a user can:
 - Create new bank accounts
-- Update existing accounts (deposit or withdraw)
+- Update balances through deposits or withdrawals
 - Delete accounts
-- Display all stored accounts
+- View all existing accounts
 
-All account data is stored persistently in a plain text file named `accounts.txt`.
-
----
-
-## 💡 Features
-
-- ✅ Create a new bank account  
-- ✏️ Update an existing account (deposit/withdraw)  
-- ❌ Delete an account  
-- 📄 Display all accounts  
-- 💾 Data is saved to `accounts.txt`
+All account information is stored persistently in a text file (`accounts.txt`), making the system simple and portable without the need for a database.
 
 ---
 
-## 🗂️ File Format
+## 🎯 Objectives
 
-Each account is stored in a line of the `accounts.txt` file in the format:
-
-
-**Example:**
-101 Smith John 2500.75
-102 Doe Jane 1200.50
-
-
-Each line represents one client account.
+- Demonstrate usage of **file handling** in C
+- Work with **structures (`struct`)**
+- Practice **modular programming** by dividing logic into functions
+- Apply **basic validation and user input handling**
+- Understand simple **CRUD** (Create, Read, Update, Delete) operations
 
 ---
 
-## 📋 Menu Options
+## 🗂 File Structure
 
-When the program runs, it displays the following menu:
+The core file is:
 
-Create new account
+- `bank.c` – Contains the full source code of the application.
 
-Update existing account
+When the program runs, it creates and uses:
 
-Delete an account
-
-Display all accounts
-
-Exit
-
+- `accounts.txt` – The data file storing all account records in plain text.
+- `temp.txt` – A temporary file used for safely updating or deleting account records.
 
 ---
 
-## 🛠️ Function Descriptions
+## 🧰 Features and Functionality
 
-### 1. `createAccount()`
-- Prompts the user to input:
-  - Account Number
-  - Last Name
-  - First Name
-  - Initial Balance
-- Appends the new account to `accounts.txt`.
+### 1. **Create New Account**
+- Prompts user for:
+  - Account number
+  - Last name
+  - First name
+  - Initial balance
+- Appends the data to `accounts.txt`
+- No duplicate check (can be added as an improvement)
 
----
+### 2. **Update Account**
+- Prompts for an account number
+- Reads all accounts into a temporary file
+- If account exists:
+  - Displays current balance
+  - Accepts a transaction amount
+  - Updates balance accordingly
+- Replaces the original file with the updated temporary file
 
-### 2. `updateAccount()`
-- Asks the user for the account number to update.
-- If found:
-  - Displays the current balance.
-  - Prompts for a deposit or withdrawal amount.
-  - Updates the balance.
-- Writes changes to a temporary file, then replaces the original file.
+### 3. **Delete Account**
+- Prompts for an account number to delete
+- Copies all accounts except the matching one into a temporary file
+- Replaces `accounts.txt` with the new file (account effectively deleted)
 
----
-
-### 3. `deleteAccount()`
-- Asks for the account number to delete.
-- If found:
-  - Removes that record from the file.
-- Uses a temporary file to safely modify records.
-
----
-
-### 4. `displayAccounts()`
-- Opens `accounts.txt` and displays all stored accounts in a tabular format:
+### 4. **Display All Accounts**
+- Opens `accounts.txt`
+- Displays a formatted table of all accounts showing:
   - Account Number
   - Last Name
   - First Name
   - Balance
 
----
-
-## 💾 File Handling
-
-The program uses standard file I/O operations in C:
-- `fopen()`, `fscanf()`, `fprintf()`, `fclose()` for reading/writing
-- `remove()` and `rename()` for safe updates and deletions using a temporary file
-- Appends new data and safely rewrites existing data as needed
+### 5. **Exit Program**
+- Gracefully exits the application loop.
 
 ---
 
-## 🧪 Compilation & Execution
+## 💾 File Format (accounts.txt)
 
-To compile the program:
+Each account is stored on a new line with the following format:
+
+<AccountNumber> <LastName> <FirstName> <Balance>
+1001 Smith John 2500.50
+1002 Doe Jane 1800.00
+
+
+---
+
+## 🧪 How to Compile and Run
+
+### 🔧 Prerequisites
+- GCC Compiler (or any C compiler)
+- Terminal / Command Prompt
+
+### ✅ Compilation
 
 ```bash
+
+
 gcc -o bank bank.c
+🧱 Code Architecture
+Structure Definition
+c
+Copy
+Edit
+struct clientData {
+    int acctNum;
+    char lastName[15];
+    char firstName[10];
+    float balance;
+};
+Main Function Loop
+Displays the menu
+
+Executes the appropriate function based on user input
+
+Loops until user selects "Exit"
+
+Core Functions
+Function Name	Purpose
+createAccount()	Adds a new account to the file
+updateAccount()	Modifies balance of an existing account
+deleteAccount()	Deletes an account from the file
+displayAccounts()	Lists all stored accounts
+menu()	Displays menu and returns user choice
 
 ⚠️ Limitations
-❌ No check for duplicate account numbers
+No check for duplicate account numbers on creation
 
-❌ No authentication or login system
+No error recovery if file operations fail midway
 
-⚠️ Floating-point precision may affect balance accuracy
+No support for concurrent users (single-user, terminal-only)
 
-⚠️ Not suitable for large datasets or concurrent use
+Floating-point balance may suffer from rounding issues
+
+Minimal input validation (user could crash app with invalid input)
 
 🚀 Suggested Improvements
-✅ Add duplicate account number check before creation
+Feature	Description
+Duplicate Check	Prevent creating accounts with existing numbers
+Login System	Add basic authentication using PIN or passwords
+Binary File Storage	Use .dat binary files for better performance and data accuracy
+Currency Handling	Store balance in integer cents to avoid floating-point errors
+Sorting and Searching	Add options to sort by name/balance or search accounts by name/number
+GUI Interface	Build a front-end using C graphics libraries or migrate to another UI
+Unit Testing	Add tests for each function to ensure stability
 
-🔐 Implement a basic login system or PIN verification
-
-📁 Use binary files for more efficient and reliable storage
-
-📊 Add sorting or filtering features in the display menu
-
-🧪 Improve user input validation and error handling
-
-💰 Store balance in integer cents for precision
+📸 Sample Output
+text
+Copy
+Edit
+BANK ACCOUNT MENU:
+1. Create new account
+2. Update existing account
+3. Delete an account
+4. Display all accounts
+5. Exit
+Enter your choice: 1
+Enter account number: 1003
+Enter last name: White
+Enter first name: Alice
+Enter balance: 3050.75
+Account created successfully.
 
 🧑‍💻 Author
-Developed as a learning project to demonstrate:
+Developed as a learning project to demonstrate core C programming concepts such as:
 
-File handling in C
+File handling
 
-Use of structs
+Structs
 
-Menu-driven programs
+Modular design
 
-Simple data persistence
+Basic data persistence
 
 📄 License
-This project is open-source and free to use for educational or learning purposes.
+This project is free and open-source for educational purposes. You may use, modify, and distribute it with proper attribution.
 
 
